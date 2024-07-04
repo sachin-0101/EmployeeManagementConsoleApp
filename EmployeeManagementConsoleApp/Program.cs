@@ -59,7 +59,7 @@ internal class Program
         // display employee details
         void ViewEmployees(string connectionString)
         {
-            string query = "SELECT [Id], [Name], [Designation], [Address], [RecordCreatedOn] FROM [dbo].[Employees]";
+            string query = "SELECT [Id], [Name], [Designation], [Address] FROM [dbo].[Employees]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -72,11 +72,23 @@ internal class Program
 
                     if (reader.HasRows)
                     {
-                        Console.WriteLine("List of Employees:");
+                        Console.WriteLine("\n List of Employees:");
+                        Console.WriteLine("----------------------------------------------------------------------");
+                        Console.WriteLine("|    Id    |         Name         |   Designation   |     Address    |");
+                        Console.WriteLine("----------------------------------------------------------------------");
+
                         while (reader.Read())
                         {
-                            Console.WriteLine($"Id: {reader["Id"]}, Name: {reader["Name"]}, Designation: {reader["Designation"]}, Address: {reader["Address"]}, RecordCreatedOn: {reader["RecordCreatedOn"]}");
+                            int id = reader.GetInt32(reader.GetOrdinal("Id"));
+                            string name = reader.GetString(reader.GetOrdinal("Name"));
+                            string designation = reader.GetString(reader.GetOrdinal("Designation"));
+                            string address = reader.GetString(reader.GetOrdinal("Address"));
+
+                            // Use string formatting to align columns
+                            Console.WriteLine($"| {id,-8} | {name,-20} | {designation,-15} | {address,-14} |");
                         }
+
+                        Console.WriteLine("----------------------------------------------------------------------");
                     }
                     else
                     {
@@ -93,8 +105,7 @@ internal class Program
         // Add new employee details
         void InsertEmployee(string connectionString)
         {
-            Console.WriteLine("____________________________________________");
-            Console.WriteLine("Add New Employee");
+            Console.WriteLine("____________________________________________");           
             Console.WriteLine("Enter Employee Name:");
             string name = Console.ReadLine().Trim();
 
