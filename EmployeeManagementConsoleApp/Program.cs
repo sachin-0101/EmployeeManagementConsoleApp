@@ -13,7 +13,7 @@ internal class Program
         // Read connection string
         string connectionString = config.GetConnectionString("MyConnectionString");
 
-
+        Console.WriteLine("****** WELCOME TO EMPLOYEE MANAGEMENT ******");
         while (true)
         {
             Console.WriteLine("____________________________________________");
@@ -48,11 +48,35 @@ internal class Program
                     DeleteEmployee(connectionString);
                     break;
                 case 5:
-                    Console.WriteLine("Exiting the program.");
-                    return;
+                    if (ConfirmExit())
+                    {
+                        Console.WriteLine("Exiting the program.");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Returning to main menu.");
+                        break;
+                    }
                 default:
                     Console.WriteLine("Invalid operation number. Please choose a valid operation.");
                     break;
+            }
+        }
+
+        static bool ConfirmExit()
+        {
+            while (true)
+            {
+                Console.Write("Are you sure you want to exit? (yes/no): ");
+                string input = Console.ReadLine().Trim().ToLower();
+
+                if (input == "yes" || input == "y")
+                    return true;
+                else if (input == "no" || input == "n")
+                    return false;
+                else
+                    Console.WriteLine("Invalid input. Please enter 'yes' or 'no'.");
             }
         }
 
