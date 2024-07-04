@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-//string connectionString = "Server=sachein\\sqlexpress;Database=InstituteDB;User Id=sa; Password=Temp@1234; Trusted_Connection=True; MultipleActiveResultSets=true; TrustServerCertificate=True;";
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        // Build configuration
         var config = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                .Build();
@@ -25,6 +25,7 @@ internal class Program
             Console.WriteLine("5. Exit");
             Console.WriteLine("____________________________________________");
 
+            // Read choice input from user
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
                 Console.WriteLine("Invalid input. Please enter a valid operation number.");
@@ -55,6 +56,7 @@ internal class Program
             }
         }
 
+        // display employee details
         void ViewEmployees(string connectionString)
         {
             string query = "SELECT [Id], [Name], [Designation], [Address], [RecordCreatedOn] FROM [dbo].[Employees]";
@@ -88,7 +90,7 @@ internal class Program
                 }
             }
         }
-
+        // Add new employee details
         void InsertEmployee(string connectionString)
         {
             Console.WriteLine("____________________________________________");
@@ -123,7 +125,7 @@ internal class Program
                 }
             }
         }
-
+        // Update employee details
         void UpdateEmployee(string connectionString)
         {
             Console.WriteLine("Enter Employee Id to update:");
@@ -164,7 +166,7 @@ internal class Program
                 }
             }
         }
-
+        // Delete employee details
         void DeleteEmployee(string connectionString)
         {
             Console.WriteLine("Enter Employee Id to delete:");
